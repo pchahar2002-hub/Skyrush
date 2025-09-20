@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Skyrush 🚀</title>
+  <style>
+    body { text-align: center; font-family: Arial; background: #101820; color: #fff; }
+    #multiplier { font-size: 2em; margin: 20px; }
+    #plane { font-size: 3em; }
+    button { padding: 10px 20px; font-size: 1em; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Skyrush 🚀</h1>
+  <p id="balance">Balance: 100 coins</p>
+  <p id="plane">✈️</p>
+  <p id="multiplier">Multiplier: 1.0x</p>
+  <button id="cashout">Cash Out</button>
+  <button onclick="startGame()">Play Again</button>
+
+  <script>
+    let balance = 100;
+    let multiplier = 1.0;
+    let crashPoint;
+    let interval;
+
+    function startGame() {
+      multiplier = 1.0;
+      crashPoint = Math.random() * 5 + 1; // random crash 1x–6x
+      document.getElementById("multiplier").innerText = "Multiplier: 1.0x";
+      clearInterval(interval);
+
+      interval = setInterval(() => {
+        multiplier += 0.1;
+        document.getElementById("multiplier").innerText =
+          "Multiplier: " + multiplier.toFixed(2) + "x";
+
+        if (multiplier >= crashPoint) {
+          clearInterval(interval);
+          alert("💥 Skyrush crashed at " + multiplier.toFixed(2) + "x!");
+        }
+      }, 500);
+    }
+
+    document.getElementById("cashout").onclick = function() {
+      clearInterval(interval);
+      balance += Math.floor(multiplier * 10);
+      document.getElementById("balance").innerText =
+        "Balance: " + balance + " coins";
+      alert("✅ Cashed out at " + multiplier.toFixed(2) + "x!");
+    };
+
+    startGame();
+  </script>
+</body>
+</html>
